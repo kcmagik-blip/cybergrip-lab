@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberGrip | Hand Tracking Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Three.js (3D Graphics Engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- OrbitControls for optional camera rotation -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- MediaPipe Hands & Camera Utils -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Project header and live measurements -->
+  <header class="hud-header">
+    <div class="logo-group">
+      <div class="project-mark" aria-hidden="true">CG</div>
+      <h1 class="hud-title">CyberGrip <span class="sub-title">Hand Tracking Lab</span></h1>
+    </div>
+    <div class="header-stats">
+      <div class="stat-box">
+        <span class="stat-label">Frame rate</span>
+        <span id="fps-counter" class="stat-value">--</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Processing delay</span>
+        <span id="latency-counter" class="stat-value">-- ms</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Camera</span>
+        <span id="status-badge" class="badge badge-standby">Standby</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- The stage is a dedicated grid column so its camera framing stays centered. -->
+  <main id="canvas-container" aria-label="3D digital twin stage">
+    <div class="stage-heading">
+      <span class="stage-kicker">LIVE SIMULATION</span>
+      <h2>3D digital twin</h2>
+      <p>Grip the floor sample, swing the arm across, and release it on the side platform.</p>
+    </div>
+    <div class="celebration-toast" id="celebration-toast" role="alert" aria-live="assertive" hidden>
+      <span class="celebration-mark" aria-hidden="true">🎉</span>
+      <div class="celebration-copy">
+        <strong>Congratulations!</strong>
+        <span>You delivered the gift!</span>
+      </div>
+    </div>
+    <div class="dynamic-island" id="dynamic-island" aria-live="polite">
+      <span class="island-dot"></span>
+      <span id="island-prompt">Start the camera, then move the hand over the floor sample</span>
+    </div>
+  </main>
+
+  <!-- Camera feed and the hands-on demo task -->
+  <aside class="panel left-panel">
+    <div class="panel-header">
+      <span>Camera</span>
+      <button id="toggle-camera-btn" class="icon-btn" title="Collapse camera preview" aria-label="Collapse camera preview">−</button>
+    </div>
+    <div class="camera-wrapper" id="camera-box">
+      <video id="webcam-video" autoplay playsinline muted></video>
+      <canvas id="landmark-canvas"></canvas>
+      <div id="cam-overlay-guide" class="camera-guide">
+        Keep your whole hand in view
+      </div>
+    </div>
+    
+    <div class="panel-controls">
+      <button id="start-cam-btn" class="primary-btn">Start camera</button>
+    </div>
+
+    <!-- Simple challenge for the live demonstration -->
+    <div class="mission-card">
+      <div class="mission-title">Try the pickup challenge</div>
+      <p class="mission-desc">1. Move over the sample on the floor.<br>2. Make a fist to lift and carry it.<br>3. Open over the side platform to drop it.</p>
+      <div id="mission-status" class="mission-badge">Sample on the floor</div>
+      <button id="preview-pickup-btn" class="tiny-btn preview-btn" type="button">Preview full pickup and drop</button>
+    </div>
+  </aside>
+
+  <!-- Tracking estimates and a simple experiment recorder -->
+  <aside class="panel right-panel">
+    <div class="panel-header">
+      <span>Hand data</span>
+      <span class="version-tag">Live estimates</span>
+    </div>
+    <p class="meter-note">Curl estimate: 0° is straight, 90° is curled.</p>
+
+    <!-- Grip Flexion Metric -->
+    <div class="grip-metric-card">
+      <div class="metric-row">
+        <span>Finger curl</span>
+        <span id="grip-percent" class="highlight-val">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="grip-progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
+      </div>
+      <div class="grip-state-label" id="grip-state">Extended</div>
+    </div>
+
+    <!-- Individual Joint Meters -->
+    <div class="joint-meters">
+      <div class="joint-row">
+        <span class="joint-name">Thumb</span>
+        <div class="meter-bar"><div id="thumb-bar" class="meter-fill"></div></div>
+        <span id="thumb-deg" class="joint-val">0°</span>
+      </div>
+      <div class="joint-row">
+        <span class="joint-name">Index</span>
+        <div class="meter-bar"><div id="index-bar" class="meter-fill"></div></div>
+        <span id="index-deg" class="joint-val">0°</span>
+      </div>
+      <div class="joint-row">
+        <span class="joint-name">Middle</span>
+        <div class="meter-bar"><div id="middle-bar" class="meter-fill"></div></div>
+        <span id="middle-deg" class="joint-val">0°</span>
+      </div>
+      <div class="joint-row">
+        <span class="joint-name">Ring</span>
+        <div class="meter-bar"><div id="ring-bar" class="meter-fill"></div></div>
+        <span id="ring-deg" class="joint-val">0°</span>
+      </div>
+      <div class="joint-row">
+        <span class="joint-name">Pinky</span>
+        <div class="meter-bar"><div id="pinky-bar" class="meter-fill"></div></div>
+        <span id="pinky-deg" class="joint-val">0°</span>
+      </div>
+    </div>
+
+    <section class="safety-card" id="safety-card" data-state="safe" role="status" aria-live="polite">
+      <div class="safety-card-head">
+        <span class="safety-light" id="safety-light">GREEN · SAFE</span>
+        <strong>Safe gesture &amp; motion check</strong>
+      </div>
+      <p id="safety-message">No hand detected. The robot is ready.</p>
+      <div class="safety-note">A raised middle finger or sudden jerky movement is blocked. Raw hand data stays live and unchanged.</div>
+    </section>
+
+    <!-- Trial Benchmark Data Logger -->
+    <div class="benchmark-box">
+      <div class="benchmark-title">Measure processing delay</div>
+      <p class="benchmark-desc">Record 100 tracking results, then export the measurements as a CSV file.</p>
+
+      <div class="condition-fields">
+        <label for="distance-input">Camera distance (m)
+          <input id="distance-input" type="number" min="0" step="0.1" value="0.5">
+        </label>
+        <label for="lighting-input">Room light (lux)
+          <input id="lighting-input" type="number" min="0" step="1" placeholder="measure and enter">
+        </label>
+      </div>
+      
+      <div class="benchmark-stats">
+        <div>Sample: <span id="sample-count">0/100</span></div>
+        <div>Average: <span id="avg-lat">-- ms</span></div>
+      </div>
+
+      <div class="benchmark-btn-group">
+        <button id="start-bench-btn" class="action-btn">Record 100</button>
+        <button id="export-csv-btn" class="action-btn secondary" disabled>Export CSV</button>
+      </div>
+    </div>
+
+    <!-- 3D Controls -->
+    <div class="view-controls">
+      <button id="reset-cam-btn" class="tiny-btn">Reset View</button>
+      <button id="toggle-grid-btn" class="tiny-btn">Grid</button>
+      <button id="reset-object-btn" class="tiny-btn">Reset Specimen</button>
+    </div>
+  </aside>
+
+  <!-- Short start instructions -->
+  <div id="welcome-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <h2>Welcome to CyberGrip</h2>
+      <p class="modal-subtitle">A webcam tracks your hand and moves a 3D robot hand.</p>
+      <div class="modal-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Allow webcam access when prompted by the browser.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+        <div class="step-text">Keep your whole hand visible and move over the floor sample.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+        <div class="step-text">Make a fist to grip, move to the side platform, then open to release.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Use <b>Record 100</b> to collect tracking delay measurements for your project.</div>
+        </div>
+      </div>
+      <button id="modal-start-btn" class="primary-btn modal-btn">Start camera</button>
+    </div>
+  </div>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/robotHand.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
