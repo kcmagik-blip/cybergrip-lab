@@ -1,0 +1,102 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CyberGrip | How It Works</title><style>
+@page { size: 24in 36in; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+body { background: #dce2e8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.poster { width: 24in; height: 36in; position: relative; overflow: hidden; padding: .68in; page-break-after: always; display:flex; flex-direction:column; justify-content:space-between; }
+.poster:last-child { page-break-after: auto; }
+.brand { display:flex; align-items:center; gap:20px; font-size:27px; font-weight:900; letter-spacing:.09em; }
+.mark { width:58px; height:58px; display:grid; place-items:center; border-radius:17px; font-size:25px; letter-spacing:-.04em; font-weight:950; }
+.brand-tag { margin-left:auto; padding:12px 18px; border-radius:999px; font-size:18px; letter-spacing:.11em; font-weight:850; }
+.eyebrow { text-transform:uppercase; letter-spacing:.17em; font-weight:900; font-size:20px; }
+h1,h2,h3,p { margin-top:0; }
+h1 { letter-spacing:-.055em; line-height:.96; }
+h2 { letter-spacing:-.035em; line-height:1.03; }
+p { line-height:1.3; }
+.pill { display:inline-block; border-radius:999px; padding:11px 17px; font-size:18px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; }
+.footer { position:static; left:auto; right:auto; bottom:auto; display:flex; align-items:center; justify-content:space-between; font-size:20px; flex:0 0 auto; }
+.robot-art { width:100%; height:100%; }
+.build-art { width:100%; height:auto; display:block; }
+.code { font-family:Menlo,Consolas,monospace; letter-spacing:-.02em; }
+@media screen { body { padding:26px; } .poster { margin:0 auto 26px; box-shadow:0 18px 55px rgba(0,0,0,.25); transform-origin:top center; } }
+@media print { body { background:white; } .poster { margin:0; box-shadow:none; } }
+
+.tech { color:#13263b; background:#f4f8fb; }
+.tech .mark { color:white; background:#146da5; }
+.tech .brand-tag { color:#246081; background:#d9edf4; }
+.tech .hero { display:flex; justify-content:space-between; align-items:end; margin:35px 0 22px; min-height:300px; }
+.tech .hero h1 { font-size:100px; margin:13px 0 0; }
+.tech .hero p { width:720px; margin:0 0 6px; font-size:34px; color:#557084; }
+.tech .eyebrow { color:#127ca1; }
+.tech .pipeline { border-radius:28px; padding:34px; min-height:420px; background:#10243a; color:white; }
+.tech .pipeline-title { display:flex; align-items:center; gap:16px; font-size:33px; font-weight:900; margin:0 0 26px 5px; }
+.tech .pipeline-title:before { content:""; width:12px; height:12px; border-radius:50%; background:#4ce0db; box-shadow:0 0 16px #4ce0db; }
+.tech .steps { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+.tech .step { min-height:290px; padding:25px 22px; background:#173650; border:1px solid #2b5771; border-radius:20px; position:relative; }
+.tech .step:not(:last-child):after { content:"›"; position:absolute; right:-17px; top:62px; z-index:2; color:#54d9df; font-size:44px; font-weight:900; }
+.tech .step .num { color:#65e5df; font-size:16px; letter-spacing:.13em; font-weight:900; }
+.tech .step h3 { font-size:32px; margin:16px 0 10px; color:#fff; }
+.tech .step p { color:#c2d5e0; font-size:26px; margin:0; line-height:1.25; }
+.tech .columns { display:grid; grid-template-columns:1fr 1fr; gap:25px; margin-top:18px; }
+.tech .card { padding:34px 38px; border-radius:25px; background:white; border:1px solid #d8e3ea; box-shadow:0 8px 22px rgba(24,62,87,.07); }
+.tech .columns > .card { min-height:630px; }
+.tech .card h2 { font-size:41px; margin:0 0 22px; }
+.tech .card p { font-size:28px; color:#486176; margin:0 0 18px; line-height:1.3; }
+.tech .card p:last-child { margin-bottom:0; }
+.tech .formula { display:flex; align-items:center; justify-content:center; margin:27px 0; min-height:145px; border-radius:18px; color:#0d4c71; background:#e9f8fb; font-family:Georgia,serif; font-size:46px; }
+.tech .landmarks { display:flex; align-items:center; justify-content:center; gap:13px; margin:16px 0; }
+.tech .landmarks .dot { width:20px;height:20px;border-radius:50%;background:#17a5c4;box-shadow:0 0 0 7px #d6f5f6; }
+.tech .landmarks .line { width:100px;height:7px;background:#41657a;border-radius:999px;transform:rotate(-10deg); }
+.tech .mapping { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+.tech .metric { padding:18px 20px; border-radius:17px; background:#eff5f8; }
+.tech .metric b { display:block; font-size:32px; color:#0d658a; margin-bottom:8px; }
+.tech .metric span { font-size:24px; color:#5a7181; }
+.tech .data-strip { display:grid; grid-template-columns:.92fr 1.08fr; gap:24px; margin-top:18px; }
+.tech .data-strip > .card { min-height:330px; }
+.tech .safety { background:#fff4e4; border-color:#f0d6a5; }
+.tech .safety h2 { color:#854c11; }
+.tech .safety strong { color:#a05d0a; }
+.tech .data { color:white; background:#126c8d; border:0; }
+.tech .data h2 { color:white; }
+.tech .data p { color:#e0f5f7; }
+.tech .truth { margin-top:14px; padding:22px 26px; border-left:8px solid #e3a742; border-radius:8px 18px 18px 8px; background:#fff7e7; font-size:25px; line-height:1.3; color:#67461e; }
+.tech .footer { color:#557084; border-top:1px solid #cbd8e0; padding-top:17px; }
+</style></head><body><article class="poster tech">
+  <header class="brand"><span class="mark">CG</span><span>CYBERGRIP</span><span class="brand-tag">HOW IT WORKS</span></header>
+  <section class="hero"><div><div class="eyebrow">Inside the system</div><h1>FROM PIXELS<br>TO MOTION.</h1></div><p>One webcam image becomes five finger controls. Here is the path the data takes.</p></section>
+  <section class="pipeline">
+    <div class="pipeline-title">THE LIVE HAND-TRACKING PIPELINE</div>
+    <div class="steps">
+      <div class="step"><div class="num">01 · INPUT</div><h3>Webcam</h3><p>Captures a mirrored video frame. Python requests 640 × 480.</p></div>
+      <div class="step"><div class="num">02 · VISION</div><h3>MediaPipe</h3><p>Finds 21 estimated landmarks on one visible hand.</p></div>
+      <div class="step"><div class="num">03 · MATH</div><h3>Finger curl</h3><p>Vector angles are mapped to 0–90 curl commands.</p></div>
+      <div class="step"><div class="num">04 · GATE</div><h3>Safe check</h3><p>Browser twin blocks a flagged pose or sudden wrist jerk.</p></div>
+      <div class="step"><div class="num">05 · OUTPUT</div><h3>Two paths</h3><p>Three.js twin on screen, or Python serial → Arduino servos.</p></div>
+    </div>
+  </section>
+  <section class="columns">
+    <div class="card">
+      <h2>How does code estimate a bend?</h2>
+      <p>For a finger, the program uses three landmark points. Two vectors meet at the middle joint.</p>
+      <div class="landmarks"><span class="dot"></span><span class="line"></span><span class="dot"></span><span class="line"></span><span class="dot"></span></div>
+      <div class="formula">θ = cos⁻¹ ( u · v / |u| |v| )</div>
+      <p>A straighter finger is near 180°. The code maps a chosen straight-to-curled range to a control value. It is an estimate from the camera, not a real joint-angle measurement.</p>
+    </div>
+    <div class="card">
+      <h2>What the numbers mean</h2>
+      <div class="mapping">
+        <div class="metric"><b>21 points</b><span>MediaPipe hand landmarks</span></div>
+        <div class="metric"><b>5 channels</b><span>Thumb, index, middle, ring, pinky</span></div>
+        <div class="metric"><b>0 → 90</b><span>Open-to-curled command values from Python</span></div>
+        <div class="metric"><b>25% smoothing</b><span>Arduino eases toward each new target</span></div>
+      </div>
+      <p style="margin-top:16px">The serial bridge sends packets like <span class="code">&lt;45,90,90,85,70&gt;</span> at 115,200 baud.</p>
+    </div>
+  </section>
+  <section class="data-strip">
+    <div class="card safety"><h2>Safety layer</h2><p><strong>In the browser demo:</strong> a raised-middle-finger pose or sudden wrist jerk turns the check red and holds the robot at its last safe pose. The hand meters still show the unfiltered estimates.</p></div>
+    <div class="card data"><h2>Science fair measurements</h2><p>The recorder collects 100 detected-hand results with processing delay, frame rate, finger-curl estimates, camera distance, and room-light input. Change one condition at a time and compare your own trials.</p></div>
+  </section>
+  <div class="truth"><strong>Important distinction:</strong> The browser safety gate and the Python/Arduino motor path are separate. The Python motor path does not currently include that same gesture/jerk block. The web pickup is simulated; only the optional maker build moves physical servos.</div>
+  <footer class="footer"><span>MediaPipe estimates landmarks · CyberGrip code maps and displays them</span><span>02 / THE TECHNOLOGY</span></footer>
+</article></body></html>

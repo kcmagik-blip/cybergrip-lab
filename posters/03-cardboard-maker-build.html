@@ -1,0 +1,123 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CyberGrip | Cardboard Maker Build</title><style>
+@page { size: 24in 36in; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+body { background: #dce2e8; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.poster { width: 24in; height: 36in; position: relative; overflow: hidden; padding: .68in; page-break-after: always; display:flex; flex-direction:column; justify-content:space-between; }
+.poster:last-child { page-break-after: auto; }
+.brand { display:flex; align-items:center; gap:20px; font-size:27px; font-weight:900; letter-spacing:.09em; }
+.mark { width:58px; height:58px; display:grid; place-items:center; border-radius:17px; font-size:25px; letter-spacing:-.04em; font-weight:950; }
+.brand-tag { margin-left:auto; padding:12px 18px; border-radius:999px; font-size:18px; letter-spacing:.11em; font-weight:850; }
+.eyebrow { text-transform:uppercase; letter-spacing:.17em; font-weight:900; font-size:20px; }
+h1,h2,h3,p { margin-top:0; }
+h1 { letter-spacing:-.055em; line-height:.96; }
+h2 { letter-spacing:-.035em; line-height:1.03; }
+p { line-height:1.3; }
+.pill { display:inline-block; border-radius:999px; padding:11px 17px; font-size:18px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; }
+.footer { position:static; left:auto; right:auto; bottom:auto; display:flex; align-items:center; justify-content:space-between; font-size:20px; flex:0 0 auto; }
+.robot-art { width:100%; height:100%; }
+.build-art { width:100%; height:auto; display:block; }
+.code { font-family:Menlo,Consolas,monospace; letter-spacing:-.02em; }
+@media screen { body { padding:26px; } .poster { margin:0 auto 26px; box-shadow:0 18px 55px rgba(0,0,0,.25); transform-origin:top center; } }
+@media print { body { background:white; } .poster { margin:0; box-shadow:none; } }
+
+.build { color:#332719; background:#fffaf1; }
+.build .mark { color:white; background:#bc492b; }
+.build .brand-tag { color:#85502c; background:#f3e4ca; }
+.build .hero { margin:22px 0 12px; display:flex; justify-content:space-between; align-items:end; min-height:220px; }
+.build .eyebrow { color:#b34a2d; }
+.build .hero h1 { max-width:1400px; font-size:100px; margin:12px 0 16px; }
+.build .hero p { color:#705b43; font-size:34px; margin:0; }
+.build .build-art { margin:12px 0 17px; }
+.build .columns { display:grid; grid-template-columns:.92fr 1.08fr; gap:23px; }
+.build .card { padding:32px 34px; border:1px solid #ead9bf; border-radius:24px; background:white; }
+.build .card h2 { margin:0 0 20px; font-size:39px; }
+.build .materials { background:#f9eedc; }
+.build .materials ul { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:1fr 1fr; gap:10px 15px; }
+.build .materials li { font-size:27px; line-height:1.22; padding-left:29px; position:relative; color:#60492e; }
+.build .materials li:before { content:"✓"; position:absolute; left:0; color:#2b8469; font-weight:900; }
+.build .steps { display:grid; grid-template-columns:1fr; gap:18px; }
+.build .build-step { display:grid; grid-template-columns:68px 1fr; gap:18px; align-items:start; }
+.build .build-step .num { width:60px;height:60px;display:grid;place-items:center;border-radius:18px;background:#b94c2d;color:white;font-size:30px;font-weight:900; }
+.build .build-step h3 { font-size:30px; margin:2px 0 5px; }
+.build .build-step p { color:#725d45; font-size:25px; margin:0; line-height:1.28; }
+.build .wiring { margin-top:18px; display:grid; grid-template-columns:1.1fr .9fr; gap:23px; align-items:stretch; }
+.build .wiring-card { background:#13273d;color:#f5f8fb;border:0; }
+.build .wiring-card h2 { color:#fff; }
+.build table { width:100%; border-collapse:collapse; font-size:28px; }
+.build th { color:#78e2ee; text-align:left; padding:12px 9px; border-bottom:1px solid #456078; font-size:22px; text-transform:uppercase; letter-spacing:.08em; }
+.build td { padding:12px 9px; border-bottom:1px solid #2a4057; }
+.build .power { margin-top:18px; padding:21px; border-radius:15px; background:#253d54; color:#d5e6ed; font-size:25px; line-height:1.3; }
+.build .setup { background:#fff; }
+.build .codeblock { margin:13px 0; padding:16px 19px; border-radius:12px; background:#14283d; color:#8fecdb; font:23px/1.4 Menlo,Consolas,monospace; }
+.build .setup p { font-size:26px; color:#6b5741; line-height:1.3; }
+.build .warning { display:grid; grid-template-columns:1.18fr .82fr; align-items:center; gap:24px; min-height:240px; margin-top:18px; padding:24px 28px; border-radius:20px; background:#fff0df; border:2px solid #e7b772; }
+.build .warning h2 { font-size:31px; margin:0 0 9px; color:#8d481a; }
+.build .warning p { font-size:24px; line-height:1.28; color:#765027; margin:0; }
+.build .repo-box { padding:20px 24px; border-radius:16px; background:#fffaf1; border:1px solid #e7c997; }
+.build .repo-box strong { display:block; font-size:27px; color:#a7432a; margin-bottom:8px; }
+.build .repo-box p { margin:0 0 8px; color:#634a2d; font-size:21px; }
+.build .repo-url { color:#145f7c; font-size:24px; line-height:1.22; font-weight:800; word-break:break-word; }
+.build .footer { color:#8b7558; border-top:1px solid #ead9bf; padding-top:14px; }
+</style></head><body><article class="poster build">
+  <header class="brand"><span class="mark">CG</span><span>CYBERGRIP MAKER BUILD</span><span class="brand-tag">CARDBOARD + CODE</span></header>
+  <section class="hero"><div><div class="eyebrow">Make the fingers move</div><h1>BUILD A CARDBOARD<br>ROBOT HAND.</h1><p>Five small servos pull strings to copy your tracked finger curl.</p></div></section>
+  
+<svg class="build-art" viewBox="0 0 880 340" role="img" aria-label="Cardboard hand with hinged fingers, strings and five servos">
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#23a8c4"/></marker></defs>
+  <rect x="18" y="18" width="844" height="304" rx="28" fill="#fff8ec" stroke="#e9d6b9" stroke-width="3"/>
+  <path d="M210 256v-80q0-20 17-20t17 20v-90q0-19 18-19t18 19v80V66q0-20 18-20t18 20v100V83q0-20 18-20t18 20v102V116q0-19 18-19t18 19v129q0 63-69 63h-65q-49 0-49-52z" fill="#eacb98" stroke="#986e3d" stroke-width="7" stroke-linejoin="round"/>
+  <g fill="#fff2d9" stroke="#b88952" stroke-width="3"><rect x="250" y="99" width="26" height="42" rx="6"/><rect x="301" y="97" width="26" height="42" rx="6"/><rect x="352" y="114" width="26" height="42" rx="6"/><rect x="403" y="146" width="26" height="40" rx="6"/><rect x="221" y="199" width="29" height="28" rx="7"/></g>
+  <g fill="none" stroke="#23a8c4" stroke-width="4" stroke-dasharray="7 6"><path d="M263 54V33H563"/><path d="M314 50V43H563"/><path d="M365 67V53H563"/><path d="M416 98V63H563"/><path d="M234 154 234 75h329"/></g>
+  <g transform="translate(560 54)">
+    <rect x="0" y="0" width="245" height="212" rx="22" fill="#dcebf0" stroke="#2e667b" stroke-width="5"/>
+    <text x="122" y="-10" text-anchor="middle" font-size="22" font-weight="800" fill="#32596b">5 MICRO SERVOS</text>
+    <g fill="#304b60" stroke="#71d6e7" stroke-width="3">
+      <rect x="22" y="32" width="74" height="48" rx="12"/><rect x="150" y="32" width="74" height="48" rx="12"/>
+      <rect x="22" y="104" width="74" height="48" rx="12"/><rect x="150" y="104" width="74" height="48" rx="12"/>
+      <rect x="86" y="166" width="74" height="38" rx="12"/>
+    </g>
+    <g fill="#f3b64d"><circle cx="59" cy="56" r="9"/><circle cx="187" cy="56" r="9"/><circle cx="59" cy="128" r="9"/><circle cx="187" cy="128" r="9"/><circle cx="123" cy="185" r="8"/></g>
+  </g>
+  <path d="M487 293h55" stroke="#23a8c4" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="500" y="319" text-anchor="middle" font-size="20" font-weight="700" fill="#32596b">pull string → curl</text>
+</svg>
+  <section class="columns">
+    <div>
+      <div class="card materials"><h2>Gather these parts</h2><ul>
+        <li>Arduino Uno or Nano</li><li>5 micro servos</li><li>Cardboard for palm + fingers</li>
+        <li>5V, 2–3A external supply</li><li>USB data cable</li><li>Thread or thin string</li>
+        <li>Rubber bands or elastic</li><li>Tape, glue, scissors</li>
+        <li>Computer + webcam</li><li>Jumper wires</li>
+      </ul></div>
+      <div class="card" style="margin-top:18px"><h2>Build in 4 steps</h2><div class="steps">
+        <div class="build-step"><span class="num">1</span><div><h3>Cut the hand</h3><p>Trace a palm and five cardboard fingers. Add tape hinges at each finger joint so they can bend.</p></div></div>
+        <div class="build-step"><span class="num">2</span><div><h3>Thread the fingers</h3><p>Tape a string near each fingertip and route it behind the finger to a servo horn. Use elastic to reopen it.</p></div></div>
+        <div class="build-step"><span class="num">3</span><div><h3>Mount the servos</h3><p>Secure five servos to a cardboard wrist/base. Start with loose strings; tighten only a little at a time.</p></div></div>
+        <div class="build-step"><span class="num">4</span><div><h3>Test gently</h3><p>Keep the hand clear, then move one finger slowly. Adjust the string before trying the full hand.</p></div></div>
+      </div></div>
+    </div>
+    <div class="card wiring-card">
+      <h2>Wire five servos</h2>
+      <table><thead><tr><th>Finger</th><th>Signal wire</th></tr></thead><tbody>
+        <tr><td>Thumb</td><td>D3</td></tr><tr><td>Index</td><td>D5</td></tr><tr><td>Middle</td><td>D6</td></tr><tr><td>Ring</td><td>D9</td></tr><tr><td>Pinky</td><td>D10</td></tr>
+      </tbody></table>
+      <div class="power"><b>Power matters:</b> all servo red wires → external +5V. All brown/black wires → supply GND. Connect Arduino GND to that same GND. Keep the Arduino on USB for data. <b>Do not power five servos from the Arduino 5V pin.</b></div>
+      <div class="codeblock">Servo signal colors are often:<br>yellow/orange = signal · red = +5V<br>brown/black = GND<br><small>Check your servo label/wire guide.</small></div>
+    </div>
+  </section>
+  <section class="wiring">
+    <div class="card setup"><h2>Load the project code</h2>
+      <p><b>1.</b> In Arduino IDE, open <span class="code">arduino/servo_controller.ino</span>, choose Uno/Nano + port, then upload.</p>
+      <p><b>2.</b> In <span class="code">python_pipeline</span>, install packages:</p><div class="codeblock">python3 -m pip install -r requirements.txt</div>
+      <p><b>3.</b> Start the webcam tracker:</p><div class="codeblock">python3 tracker.py</div>
+      <p><b>4.</b> Press <span class="code">s</span> in the video window to connect to the Arduino. Press <span class="code">q</span> to quit.</p>
+    </div>
+    <div class="card setup"><h2>What the maker build does</h2><p>Python estimates five finger-curl values from the webcam. The serial bridge sends them to the Arduino. The Arduino smooths the values and moves five servos.</p><p><b>This build copies finger motion only.</b> It does not include the browser twin’s arm or gift pickup, and the physical Python path does not have the browser demo’s gesture safety filter.</p></div>
+  </section>
+  <section class="warning">
+    <div><h2>Build safely with an adult</h2><p>Unplug servo power before changing wires or strings. Keep fingers clear of pinches. Use the external 5V supply, check servo travel, and stop if anything gets hot or strains. Adult help for cutting and wiring.</p></div>
+    <div class="repo-box"><strong>Get the code</strong><p>Type this address to open the project files:</p><a class="repo-url" href="https://github.com/kcmagik-blip/cybergrip-lab">github.com/kcmagik-blip/cybergrip-lab</a></div>
+  </section>
+  <footer class="footer"><span>Cardboard is a prototype: test one servo at a time before adding all five.</span><span>03 / THE MAKER BUILD</span></footer>
+</article></body></html>
